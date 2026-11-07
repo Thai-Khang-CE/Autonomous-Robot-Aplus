@@ -1,3 +1,47 @@
-build/
-install/
-log/
+# =========================
+# ROS 2 / Colcon
+# =========================
+/build/
+/install/
+/log/
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# =========================
+# C / C++
+# =========================
+*.o
+*.so
+*.a
+compile_commands.json
+
+# =========================
+# VS Code
+# =========================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# =========================
+# OS / Temporary
+# =========================
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# =========================
+# Secrets
+# =========================
+.env
+.env.*
+!.env.example
