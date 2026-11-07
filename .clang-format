@@ -1,0 +1,32 @@
+# Robot Aplus - C++17 Coding Style
+BasedOnStyle: Google
+Language: Cpp
+Standard: c++17
+
+# Indentation
+IndentWidth: 2
+UseTab: Never
+
+# Line length
+ColumnLimit: 100
+
+# Includes
+SortIncludes: true
+
+# Pointer and reference formatting
+PointerAlignment: Middle
+
+# Class access modifiers
+AccessModifierOffset: -2
+
+# Braces
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterStruct: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterControlStatement: Never
+  BeforeElse: false
+  BeforeCatch: false

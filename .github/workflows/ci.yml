@@ -1,0 +1,40 @@
+name: Robot Aplus CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  # Phase 1: C++ coding convention
+  cpp-style:
+    name: C++ Style
+    uses: ./.github/workflows/_cpp-format.yml
+
+  # Phase 2: Future checks
+  #
+  # xml-validation:
+  #   name: XML Validation
+  #   uses: ./.github/workflows/_xml-validation.yml
+  #
+  # ros2-build:
+  #   name: ROS 2 Build
+  #   uses: ./.github/workflows/_ros2-build.yml
+  #
+  # unit-tests:
+  #   name: Unit Tests
+  #   uses: ./.github/workflows/_unit-tests.yml
+
