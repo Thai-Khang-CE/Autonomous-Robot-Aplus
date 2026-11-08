@@ -19,6 +19,18 @@
                   value="${upper_deck_center_z - upper_deck_thickness/2 - lower_deck_thickness/2}"/>
   <xacro:property name="pillar_center_z"
                   value="${(lower_deck_thickness/2 + upper_deck_center_z - upper_deck_thickness/2)/2}"/>
+  <xacro:property name="lidar_radius" value="0.035"/>
+  <xacro:property name="lidar_height" value="0.040"/>
+  <xacro:property name="lidar_center_z"
+                  value="${upper_deck_center_z + upper_deck_thickness/2 + lidar_height/2}"/>
+  <xacro:property name="rear_support_x" value="-0.130"/>
+  <xacro:property name="rear_support_radius" value="0.015"/>
+  <xacro:property name="rear_support_stem_radius" value="0.005"/>
+  <xacro:property name="rear_support_stem_height" value="0.030"/>
+  <xacro:property name="rear_support_center_z"
+                  value="${rear_support_radius - wheel_radius}"/>
+  <xacro:property name="rear_support_stem_center_z"
+                  value="${rear_support_radius + rear_support_stem_height/2}"/>
 
   <xacro:macro name="support_pillar" params="x y">
     <visual>
@@ -111,11 +123,12 @@
     <axis xyz="0 1 0"/>
   </joint>
 
-  <!-- 4. Lidar sensor housing -->
+  <!-- LiDAR housing; the frame keeps body axes (+X forward, +Z up). -->
   <link name="lidar_link">
     <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.035" length="0.04"/>
+        <cylinder radius="${lidar_radius}" length="${lidar_height}"/>
       </geometry>
       <material name="red">
         <color rgba="0.9 0.1 0.1 1"/>
@@ -126,7 +139,35 @@
   <joint name="lidar_joint" type="fixed">
     <parent link="base_link"/>
     <child link="lidar_link"/>
-    <origin xyz="0.15 0 0.175" rpy="0 0 0"/>
+    <origin xyz="0 0 ${lidar_center_z}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Rigid visual approximation of a rear passive ball support. -->
+  <link name="rear_support_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${rear_support_radius}"/>
+      </geometry>
+      <material name="support_black">
+        <color rgba="0.12 0.12 0.12 1"/>
+      </material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 ${rear_support_stem_center_z}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${rear_support_stem_radius}" length="${rear_support_stem_height}"/>
+      </geometry>
+      <material name="support_gray">
+        <color rgba="0.55 0.55 0.55 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="rear_support_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_support_link"/>
+    <origin xyz="${rear_support_x} 0 ${rear_support_center_z}" rpy="0 0 0"/>
   </joint>
 
 </robot>
