@@ -7,7 +7,7 @@
   <xacro:property name="wheel_width" value="0.020"/>
   <xacro:property name="lower_deck_length" value="0.340"/>
   <xacro:property name="lower_deck_width" value="0.240"/>
-  <xacro:property name="lower_deck_thickness" value="0.010"/> 
+  <xacro:property name="lower_deck_thickness" value="0.010"/>
   <xacro:property name="upper_deck_length" value="0.300"/>
   <xacro:property name="upper_deck_width" value="0.220"/>
   <xacro:property name="upper_deck_thickness" value="0.010"/>
@@ -86,12 +86,46 @@
     </collision>
   </xacro:macro>
 
+  <xacro:macro name="drive_wheel" params="name side">
+    <link name="${name}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${wheel_mass}"/>
+        <inertia ixx="${wheel_transverse_inertia}" ixy="0" ixz="0"
+                 iyy="${wheel_axial_inertia}" iyz="0"
+                 izz="${wheel_transverse_inertia}"/>
+      </inertial>
+    </link>
+
+    <joint name="${name}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${name}_wheel_link"/>
+      <origin xyz="0 ${side*wheel_separation/2} 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+  </xacro:macro>
+
   <!-- Ground-plane projection of the drive axle midpoint. -->
   <link name="base_footprint"/>
 
   <joint name="base_footprint_joint" type="fixed">
     <parent link="base_footprint"/>
-    <child link="base_link"/> 
+    <child link="base_link"/>
     <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
   </joint>
 
@@ -140,74 +174,8 @@
   </link>
 
   <!-- Drive wheels: positive rotation about +Y rolls the robot toward +X. -->
-  <link name="left_wheel_link">
-    <visual>
-      <origin xyz="0 0 0"
-              rpy="${-pi/2} 0 0"/>
-      <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
-      </geometry>
-      <material name="black">
-        <color rgba="0.1 0.1 0.1 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
-      <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="${wheel_mass}"/>
-      <inertia ixx="${wheel_transverse_inertia}" ixy="0" ixz="0"
-               iyy="${wheel_axial_inertia}" iyz="0"
-               izz="${wheel_transverse_inertia}"/>
-    </inertial>
-  </link>
-
-  <joint name="left_wheel_joint"
-         type="continuous">
-    <parent link="base_link"/>
-    <child link="left_wheel_link"/>
-    <origin xyz="0 ${wheel_separation/2} 0" rpy="0 0 0"/>
-    <axis xyz="0 1 0"/>
-  </joint>
-
-  <!-- Right drive wheel. -->
-  <link name="right_wheel_link">
-    <visual>
-      <origin xyz="0 0 0"
-              rpy="${-pi/2} 0 0"/>
-      <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
-      </geometry>
-      <material name="black">
-        <color rgba="0.1 0.1 0.1 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
-      <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="${wheel_mass}"/>
-      <inertia ixx="${wheel_transverse_inertia}" ixy="0" ixz="0"
-               iyy="${wheel_axial_inertia}" iyz="0"
-               izz="${wheel_transverse_inertia}"/>
-    </inertial>
-  </link>
-
-  <joint name="right_wheel_joint"
-         type="continuous">
-    <parent link="base_link"/>
-    <child link="right_wheel_link"/>
-    <origin xyz="0 ${-wheel_separation/2} 0" rpy="0 0 0"/>
-    <axis xyz="0 1 0"/>
-  </joint>
+  <xacro:drive_wheel name="left" side="${1}"/>
+  <xacro:drive_wheel name="right" side="${-1}"/>
 
   <!-- LiDAR housing; the frame keeps body axes (+X forward, +Z up). -->
   <link name="lidar_link">
