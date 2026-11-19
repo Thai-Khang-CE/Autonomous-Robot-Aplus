@@ -1,0 +1,38 @@
+# Navigation2DEnv specification (Week 9).
+# These are PROPOSED simulation parameters, not measurements of the physical robot.
+# The same file is used for PPO, SAC, random and heuristic baselines.
+
+robot:
+  radius: 0.18            # [m] collision radius of the circular robot footprint
+  max_linear_velocity: 0.35   # [m/s] forward-only, v = (u_v + 1) / 2 * v_max
+  max_angular_velocity: 1.5   # [rad/s] omega = u_w * w_max
+
+world:
+  size: 6.0               # [m] square world, x and y in [0, size]
+
+task:
+  goal_tolerance: 0.25    # [m] success if distance(robot centre, goal) <= tolerance
+  dt: 0.2                 # [s] control interval
+  max_episode_steps: 250  # time limit -> truncated=True (50 s of simulated time)
+
+sensor:
+  num_rays: 8             # rays at heading + k * 45 deg, k = 0..7 (360 deg field of view)
+  max_range: 3.5          # [m] readings are clipped and divided by max_range
+
+reward:
+  progress: 10.0          # k_p, multiplied by (d_t - d_{t+1}) in metres
+  goal: 20.0              # k_g, paid once on the terminal success step
+  collision: 20.0         # k_c, paid once on the terminal collision step
+  step: 0.05              # k_t, constant cost per control step
+
+scenarios:
+  # Category mixture used for TRAINING resets (sampled with env.np_random).
+  train_category_weights:
+    open: 0.3
+    indoor: 0.4
+    narrow: 0.3
+  min_start_goal_distance: 2.0     # [m]
+  start_clearance: 0.15            # [m] extra free space around the start pose
+  goal_clearance: 0.05             # [m] extra free space around the goal
+  planning_resolution: 0.05        # [m] grid used for navigability check / reference path
+  planning_margin: 0.03            # [m] extra inflation for the navigability check

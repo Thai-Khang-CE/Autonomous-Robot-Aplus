@@ -1,0 +1,19 @@
+# SAC (off-policy, maximum-entropy) configuration for Navigation2DEnv.
+# Initial settings following Haarnoja et al. 2018 / SB3 defaults, NOT tuned.
+algorithm: sac
+policy: MlpPolicy
+n_envs: 1                 # one transition per step, one gradient step per transition
+total_timesteps: 50000
+hyperparameters:
+  learning_rate: 3.0e-4
+  buffer_size: 300000     # >= largest planned budget, so no transition is evicted
+  learning_starts: 5000   # uniformly random warm-up actions before the first update
+  batch_size: 256
+  tau: 0.005
+  gamma: 0.99
+  train_freq: 1
+  gradient_steps: 1
+  ent_coef: auto          # automatic temperature tuning, target entropy = -dim(A) = -2
+policy_kwargs:
+  net_arch: {pi: [256, 256], qf: [256, 256]}
+  activation_fn: relu
