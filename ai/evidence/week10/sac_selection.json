@@ -1,0 +1,13 @@
+{
+  "trial": 3,
+  "configuration": "temperature_target",
+  "validation_score": 0.4,
+  "overrides": {
+    "tau": 0.01,
+    "ent_coef": "auto_0.2"
+  },
+  "protocol_sha256": "1dc1e13e67d2be8fa87953c40c50635570479e3ad9472573582217c4b017b6bf",
+  "baseline_trials": [
+    0
+  ]
+}
