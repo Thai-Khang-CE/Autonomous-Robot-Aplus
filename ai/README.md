@@ -102,3 +102,7 @@ See `docs/experiments.md` for the protocol, the measured results and their inter
 * `docs/experiments.md` – budgets, protocol, results, limitations.
 * `docs/integration_contract.md` – ROS 2 / Gazebo interface (not implemented yet).
 * `docs/learning_guide_vi.md` – Vietnamese learning guide based on this code.
+
+## Week 10
+
+For the frozen tuning protocol and reproduction commands, see [Week 10 hyperparameter optimization](docs/WEEK10_REPRODUCIBILITY.md). The [handoff audit](docs/WEEK9_HANDOFF_AUDIT.md) records the historical checkpoint and baseline checks.

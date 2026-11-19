@@ -1,0 +1,21 @@
+# Frozen before Week 10 screening.
+validation: {offset: 2100000, per_category: 10}
+test: {offset: 3000000, per_category: 50}
+screen_seed: 100
+confirmation_seeds: [201, 202, 203]
+screen_steps: 8192
+confirmation_steps: 16384
+collision_weight: 0.5
+candidates:
+  ppo:
+    baseline: {}
+    learning_rate: {learning_rate: 0.0006}
+    short_rollout: {n_steps: 128, batch_size: 128}
+    clipped_exploration: {clip_range: 0.1, ent_coef: 0.01}
+    horizon: {gamma: 0.995, gae_lambda: 0.90}
+  sac:
+    baseline: {}
+    learning_rate: {learning_rate: 0.0006}
+    early_updates: {learning_starts: 2048, batch_size: 128}
+    temperature_target: {tau: 0.01, ent_coef: auto_0.2}
+    update_ratio: {gradient_steps: 2}
