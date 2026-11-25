@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robot-aplus-rl"
+version = "0.9.0"
+description = "Robot Aplus Week 9: PPO vs SAC goal-directed navigation in a simplified 2D Gymnasium environment"
+requires-python = ">=3.10"
+authors = [{ name = "Nguyen Van Viet" }]
+dependencies = [
+  "numpy>=1.26",
+  "gymnasium>=1.0",
+  "stable-baselines3>=2.4",
+  "torch>=2.3",
+  "matplotlib>=3.8",
+  "pandas>=2.0",
+  "pyyaml>=6.0",
+  "tensorboard>=2.15",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

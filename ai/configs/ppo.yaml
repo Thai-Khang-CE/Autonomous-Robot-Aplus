@@ -1,0 +1,20 @@
+# PPO (on-policy) configuration for Navigation2DEnv.
+# Initial, literature-informed settings (Schulman et al. 2017; SB3 defaults), NOT tuned.
+algorithm: ppo
+policy: MlpPolicy
+n_envs: 8                 # parallel environment copies (DummyVecEnv, same process)
+total_timesteps: 50000    # default budget; overridden on the command line for other runs
+hyperparameters:
+  learning_rate: 3.0e-4
+  n_steps: 256            # per env -> 8 * 256 = 2048 transitions per rollout
+  batch_size: 256
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.0
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+policy_kwargs:
+  net_arch: {pi: [256, 256], vf: [256, 256]}
+  activation_fn: tanh

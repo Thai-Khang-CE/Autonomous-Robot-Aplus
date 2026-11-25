@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+tools/
+reports/week09/*.aux
+reports/week09/*.log
+reports/week09/*.out
+reports/week09/*.toc
+reports/week09/*.bbl
+reports/week09/*.blg
+*.zip

@@ -1,0 +1,4 @@
+-r requirements-lock.txt
+# Week 10 search and explicit file locking
+optuna==5.1.0
+filelock==4.2.4
